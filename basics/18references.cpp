@@ -43,5 +43,8 @@ int main()
 
     // This demonstrates that references do not occupy separate space in memory
 
+    // References:
+    // https://en.cppreference.com/w/cpp/language/reference.html
+
     return 0; // Program ends
 }
