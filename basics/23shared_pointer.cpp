@@ -81,4 +81,7 @@ int main()
    - Avoid creating shared_ptr from a raw pointer directly more than once,
      as it can lead to multiple control blocks and double-deletion.
    - Prefer std::make_shared for safety and efficiency (except for arrays before C++20).
+
+  References:
+  - https://en.cppreference.com/w/cpp/memory/shared_ptr.html
 */
