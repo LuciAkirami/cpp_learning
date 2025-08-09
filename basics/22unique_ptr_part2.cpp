@@ -22,6 +22,7 @@ int main()
     /**
      * We can TRANSFER ownership using std::move.
      * After moving, ptr1 becomes empty (nullptr), and ptr2 becomes the new owner.
+     * std::unique_ptr ensures a unique ownership of a dynamically allocated memory / object
      */
 
     std::unique_ptr<int> ptr2 = std::move(ptr1); // Transfer ownership from ptr1 to ptr2
