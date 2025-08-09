@@ -15,14 +15,14 @@ int main()
     std::cout << "ptr1 points to value: " << *ptr1 << std::endl;
 
     // ----------------- COPYING IS DISALLOWED -------------------
-    // auto ptr2 = ptr1; // ❌ This will cause a compile-time error: copy constructor is deleted
+    // auto ptr2 = ptr1; // This will cause a compile-time error: copy constructor is deleted
 
     // ----------------- MOVING TRANSFERS OWNERSHIP -------------------
 
     /**
      * We can TRANSFER ownership using std::move.
      * After moving, ptr1 becomes empty (nullptr), and ptr2 becomes the new owner.
-     * std::unique_ptr ensures a unique ownership of a dynamically allocated memory / object
+     * std::unique_ptr ensures a unique ownership of a dynamically allocated object
      */
 
     std::unique_ptr<int> ptr2 = std::move(ptr1); // Transfer ownership from ptr1 to ptr2
