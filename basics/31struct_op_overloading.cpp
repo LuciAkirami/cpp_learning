@@ -42,6 +42,12 @@ struct Point
         b) No unnecessary copy is made.
     - `*this` is the current object (type: Point), so `return *this;`
       works because `*this` is an lvalue and matches `Point&` return type.
+
+    WHY CHAINING WORKS HERE:
+    -------------------------
+    p4 += p5 += p2;
+      Step 1: p5 += p2 → modifies p5 and RETURNS Point& (reference to p5)
+      Step 2: p4 += (reference to p5) → valid, because operator+= expects const Point&
     ------------------------------------------------------------------
     */
     Point &operator+=(const Point &rhs)
@@ -52,6 +58,40 @@ struct Point
     }
 
     // Prints point coordinates
+    void print_point() const
+    {
+        std::cout << "x = " << x << '\n';
+        std::cout << "y = " << y << '\n';
+    }
+};
+
+/*
+----------------------------------------------------------------------
+NEW EXAMPLE: Struct without chaining support
+----------------------------------------------------------------------
+Here we have a version of operator+= that returns `void` instead of `Point&`.
+
+WHY CHAINING FAILS HERE:
+-------------------------
+q1 += q2 += q3;
+  Step 1: q2 += q3 → modifies q2 and RETURNS void
+  Step 2: q1 += (void) → compile error, because operator+= expects const PointNoChain&
+----------------------------------------------------------------------
+*/
+struct PointNoChain
+{
+    int x;
+    int y;
+
+    PointNoChain(int new_x, int new_y) : x(new_x), y(new_y) {}
+
+    void operator+=(const PointNoChain &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        // No return — so no chaining possible
+    }
+
     void print_point() const
     {
         std::cout << "x = " << x << '\n';
@@ -79,6 +119,19 @@ int main()
     p4.print_point();
     p5.print_point();
 
+    std::cout << "\n=== Using operator+= in PointNoChain (void return) ===\n";
+    PointNoChain q1(10, 10);
+    PointNoChain q2(20, 20);
+    PointNoChain q3(5, 5);
+
+    // q1 += q2 += q3; // Won't compile: q2+=q3 returns void → q1+=void invalid
+    q2 += q3; // Must do in separate statements
+    q1 += q2;
+
+    q1.print_point();
+    q2.print_point();
+    q3.print_point();
+
     return 0;
 }
 
@@ -96,4 +149,13 @@ KEY TAKEAWAYS:
 
 THIS
 - To understand more about "this", go to 32.cpp and this_keyword.md
+
+ADDITIONAL:
+- If operator+= returns void (like in PointNoChain), you lose the ability
+  to chain expressions like p1 += p2 += p3.
+  This is because the first call returns `void`, making the second call
+  effectively: `p1 += void`, which is invalid.
+
+REFERENCE:
+- https://en.cppreference.com/w/cpp/language/operators.html
 */
