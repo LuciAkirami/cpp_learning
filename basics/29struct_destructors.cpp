@@ -97,4 +97,8 @@ KEY TAKEAWAY:
 - They prevent leaks by automating cleanup.
 - Use raw pointers only if you have a very specific reason and know exactly how you’ll manage cleanup.
 - These constructors and destructors, the same apply for classes
+
+REFERENCES:
+-----------------
+- https://en.cppreference.com/w/cpp/language/destructor.html
 */
